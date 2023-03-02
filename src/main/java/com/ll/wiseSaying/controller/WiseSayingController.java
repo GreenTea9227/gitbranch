@@ -42,11 +42,9 @@ public class WiseSayingController {
     }
 
     public void remove(Rq rq) {
-        int id = -1;
+        int id = rq.getIntParam("id", -1);
 
-        try {
-            id = Integer.parseInt(rq.getParam("id"));
-        } catch (NumberFormatException e) {
+        if (id == -1) {
             System.out.println("id(정수)를 입력해주세요.");
             return;
         }
