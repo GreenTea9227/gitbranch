@@ -13,6 +13,9 @@ public class Rq {
         actionCode = commandBits[0];
 
         params = new HashMap<>();
+
+        if (commandBits.length == 1) return;
+
         String[] paramsBits = commandBits[1].split("&");
 
         for (String paramStr : paramsBits) {
