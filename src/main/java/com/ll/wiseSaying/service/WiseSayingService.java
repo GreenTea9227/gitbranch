@@ -1,9 +1,11 @@
 package com.ll.wiseSaying.service;
 
+import com.ll.Util;
 import com.ll.wiseSaying.entity.WiseSaying;
 import com.ll.wiseSaying.repository.WiseSayingRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WiseSayingService {
     private final WiseSayingRepository wiseSayingRepository;
@@ -30,5 +32,18 @@ public class WiseSayingService {
 
     public void modify(WiseSaying wiseSaying, String content, String authorName) {
         wiseSayingRepository.modify(wiseSaying, content, authorName);
+    }
+
+    public void build() {
+        List<WiseSaying> wiseSayings = wiseSayingRepository.findAll();
+
+        Util.file.mkdir("prodBuild");
+
+        String json = "[" + wiseSayings
+                .stream()
+                .map(wiseSaying -> wiseSaying.toJson())
+                .collect(Collectors.joining(",\n")) + "]";
+
+        Util.file.saveToFile("prodBuild/data.json", json);
     }
 }
